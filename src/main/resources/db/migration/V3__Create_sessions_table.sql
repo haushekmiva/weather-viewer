@@ -4,5 +4,5 @@ CREATE TABLE sessions
     user_id    INT      NOT NULL,
     expires_at DATETIME NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

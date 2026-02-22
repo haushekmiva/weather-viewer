@@ -6,5 +6,5 @@ CREATE TABLE locations
     latitude  DECIMAL(6, 4) NOT NULL,
     longitude DECIMAL(7, 4) NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
