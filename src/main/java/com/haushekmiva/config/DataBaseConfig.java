@@ -47,6 +47,7 @@ public class DataBaseConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setJdbcUrl(dbUrl);
         config.setUsername(dbUsername);
         config.setPassword(dbPassword);
