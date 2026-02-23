@@ -1,4 +1,4 @@
-package com.haushekmiva.exception;
+package com.haushekmiva.exception.handler;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;    
 
