@@ -17,19 +17,18 @@ public class UserRepositoryImpl implements UserRepository {
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override
     public void createUser(User user) {
         sessionFactory.getCurrentSession().persist(user);
     }
+
     @Transactional(readOnly = true)
     @Override
     public Optional<User> getUserByLogin(String login) {
-        return Optional.ofNullable(sessionFactory.getCurrentSession()
+        return sessionFactory.getCurrentSession()
                 .createQuery("FROM User u WHERE u.login = :login", User.class)
                 .setParameter("login", login)
-                .uniqueResult()
-        );
+                .uniqueResultOptional();
     }
 
     @Transactional(readOnly = true)
