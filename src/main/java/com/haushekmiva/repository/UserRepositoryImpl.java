@@ -18,27 +18,16 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void createUser(User user) {
+    public void create(User user) {
             sessionFactory.getCurrentSession().persist(user);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Optional<User> getUserByLogin(String login) {
+    public Optional<User> getByLogin(String login) {
         return sessionFactory.getCurrentSession()
                 .createQuery("FROM User u WHERE u.login = :login", User.class)
                 .setParameter("login", login)
                 .uniqueResultOptional();
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public boolean isUserExists(String login) {
-        Long userCount = (sessionFactory.getCurrentSession()
-                .createQuery("SELECT COUNT(u) FROM User u WHERE u.login = :login", Long.class)
-                .setParameter("login", login)
-                .uniqueResult()
-        );
-        return userCount > 0;
     }
 }
