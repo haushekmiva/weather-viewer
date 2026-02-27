@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -31,6 +32,9 @@ public class DataBaseConfig {
     @Value("${db.pool.size}")
     private int dbPoolSize;
 
+    @Value("${db.driver.class_name}")
+    private String driverClassName;
+
     @Value("${hibernate.show_sql}")
     private String showSql;
 
@@ -47,7 +51,7 @@ public class DataBaseConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setDriverClassName(driverClassName);
         config.setJdbcUrl(dbUrl);
         config.setUsername(dbUsername);
         config.setPassword(dbPassword);
@@ -83,6 +87,11 @@ public class DataBaseConfig {
 
         sessionFactory.setHibernateProperties(props);
         return sessionFactory;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
     }
 
     @Bean
