@@ -1,22 +1,21 @@
 package com.haushekmiva.repository;
 
 import com.haushekmiva.model.Session;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 @Transactional
+@RequiredArgsConstructor
 public class SessionRepositoryImpl implements SessionRepository {
 
     private final SessionFactory sessionFactory;
-
-    public SessionRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public void create(Session session) {

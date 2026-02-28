@@ -1,6 +1,7 @@
 package com.haushekmiva.repository;
 
 import com.haushekmiva.model.User;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,13 +10,10 @@ import java.util.Optional;
 
 @Repository
 @Transactional
+@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
     private final SessionFactory sessionFactory;
-
-    public UserRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public void create(User user) {
