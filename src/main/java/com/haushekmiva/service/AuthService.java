@@ -1,6 +1,7 @@
 package com.haushekmiva.service;
 
 import com.haushekmiva.dto.AuthResponse;
+import com.haushekmiva.dto.UserDto;
 import com.haushekmiva.dto.UserLoginRequest;
 import com.haushekmiva.dto.UserRegisterRequest;
 

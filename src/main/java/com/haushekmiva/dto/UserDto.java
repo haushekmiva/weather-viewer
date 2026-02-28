@@ -1,4 +1,4 @@
-package com.haushekmiva.service;
+package com.haushekmiva.dto;
 
 
 import java.util.List;
