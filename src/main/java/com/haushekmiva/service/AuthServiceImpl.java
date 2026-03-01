@@ -72,6 +72,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Optional<UserDto> isUserAuthenticated(UUID sessionId) {
+        Optional<Session> session = sessionRepository.getById(sessionId);
+
+        if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
+            return Optional.of(userMapper.toDto(session.get().getUserId()));
+        }
+
         return Optional.empty();
     }
 }
