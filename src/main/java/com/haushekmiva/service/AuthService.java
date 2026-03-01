@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface AuthService {
     AuthResponse registerUser(UserRegisterRequest userRegisterRequest);
-    AuthResponse loginUser(UserLoginRequest userAuthResponse);
+    AuthResponse loginUser(UserLoginRequest userLoginRequest);
     boolean logoutUser(UUID sessionId);
     Optional<UserDto> isUserAuthenticated(UUID sessionId);
 }
