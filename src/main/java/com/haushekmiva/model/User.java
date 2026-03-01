@@ -1,10 +1,7 @@
 package com.haushekmiva.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor
 @ToString(exclude = {"password", "locations", "sessions"})
 public class User {
 
@@ -22,9 +20,11 @@ public class User {
     private int id;
 
     @Column(name = "login", unique = true, nullable = false, length = 32)
+    @NonNull
     private String login;
 
     @Column(name="password", nullable = false, length = 255)
+    @NonNull
     private String password;
 
     @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
