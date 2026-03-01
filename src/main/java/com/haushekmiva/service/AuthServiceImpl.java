@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
         try {
             userRepository.create(user);
         } catch (DataIntegrityViolationException e) {
-            return new AuthError("Invalid username or password.");
+            return new AuthError("User with login %s already exists.".formatted(userRegisterRequest.username()));
         }
 
         UUID sessionId = UUID.randomUUID();
@@ -51,13 +51,23 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public AuthResponse loginUser(UserLoginRequest userLoginRequest) {
-        return null;
+        Optional<User> user = userRepository.getByLogin(userLoginRequest.login());
+
+        if (user.isEmpty() || !passwordEncoder.matches(userLoginRequest.password(), user.get().getPassword())) {
+            return new AuthError("Invalid username or password.");
+        }
+
+        UUID sessionId = UUID.randomUUID();
+        sessionRepository.create(new Session(sessionId, LocalDateTime.now().plusDays(DAYS_IN_WEEK), user.get()));
+
+        return new AuthSuccess(sessionId);
     }
 
     @Override
-    public boolean logoutUser(UUID sessionId) {
-        return false;
+    public void logoutUser(UUID sessionId) {
+        sessionRepository.remove(sessionId);
     }
 
     @Override
