@@ -1,4 +1,12 @@
 package com.haushekmiva.dto;
 
-public record UserLoginRequest(String login, String password) {
+import jakarta.validation.constraints.NotBlank;
+
+public record UserLoginRequest(
+        @NotBlank
+        String login,
+
+        @NotBlank
+        String password
+) {
 }
