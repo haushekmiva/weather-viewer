@@ -8,5 +8,5 @@ import java.util.UUID;
 public interface SessionRepository {
     void create(Session session);
     Optional<Session> getById(UUID id);
-    void delete(UUID id);
+    void remove(UUID id);
 }
