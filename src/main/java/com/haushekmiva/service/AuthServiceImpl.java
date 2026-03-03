@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthResponse loginUser(UserLoginRequest userLoginRequest) {
-        Optional<User> user = userRepository.getByLogin(userLoginRequest.login());
+        Optional<User> user = userRepository.getByLogin(userLoginRequest.username());
 
         if (user.isEmpty() || !passwordEncoder.matches(userLoginRequest.password(), user.get().getPassword())) {
             return new AuthError("Invalid username or password.");
