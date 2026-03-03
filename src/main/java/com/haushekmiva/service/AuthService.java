@@ -12,5 +12,5 @@ public interface AuthService {
     AuthResponse registerUser(UserRegisterRequest userRegisterRequest);
     AuthResponse loginUser(UserLoginRequest userLoginRequest);
     void logoutUser(UUID sessionId);
-    Optional<UserDto> isUserAuthenticated(UUID sessionId);
+    Optional<UserDto> getUserBySessionId(UUID sessionId);
 }
