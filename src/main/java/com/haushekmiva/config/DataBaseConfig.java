@@ -41,9 +41,6 @@ public class DataBaseConfig {
     @Value("${hibernate.format_sql}")
     private String formatSql;
 
-    @Value("${hibernate.dialect}")
-    private String dialect;
-
     @Value("${hibernate.hbm2ddl.auto}")
     private String ddlAuto;
 
@@ -81,7 +78,6 @@ public class DataBaseConfig {
         Properties props = new Properties();
 
         props.setProperty("hibernate.hbm2ddl.auto", ddlAuto);
-        props.setProperty("hibernate.dialect", dialect);
         props.setProperty("hibernate.show_sql", showSql);
         props.setProperty("hibernate.format_sql", formatSql);
 
