@@ -1,12 +1,18 @@
 package com.haushekmiva.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.ToString;
 
-public record UserLoginRequest(
-        @NotBlank
-        String username,
+
+@Data
+public class UserLoginRequest {
 
         @NotBlank
-        String password
-) {
+        private String username;
+
+        @NotBlank
+        @ToString.Exclude
+        private String password;
+
 }

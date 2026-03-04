@@ -31,17 +31,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthResponse registerUser(UserRegisterRequest userRegisterRequest) {
-        if (!Objects.equals(userRegisterRequest.password(), userRegisterRequest.repeatPassword())) {
+        if (!Objects.equals(userRegisterRequest.getPassword(), userRegisterRequest.getRepeatPassword())) {
             return new AuthError("Passwords do not match.");
         }
 
-        String passwordHash = passwordEncoder.encode(userRegisterRequest.password());
+        String passwordHash = passwordEncoder.encode(userRegisterRequest.getPassword());
 
-        User user = new User(userRegisterRequest.username(), passwordHash);
+        User user = new User(userRegisterRequest.getUsername(), passwordHash);
         try {
             userRepository.create(user);
         } catch (DataIntegrityViolationException e) {
-            return new AuthError("User with login %s already exists.".formatted(userRegisterRequest.username()));
+            return new AuthError("User with login %s already exists.".formatted(userRegisterRequest.getUsername()));
         }
 
         UUID sessionId = UUID.randomUUID();
@@ -53,9 +53,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthResponse loginUser(UserLoginRequest userLoginRequest) {
-        Optional<User> user = userRepository.getByLogin(userLoginRequest.username());
+        Optional<User> user = userRepository.getByLogin(userLoginRequest.getUsername());
 
-        if (user.isEmpty() || !passwordEncoder.matches(userLoginRequest.password(), user.get().getPassword())) {
+        if (user.isEmpty() || !passwordEncoder.matches(userLoginRequest.getPassword(), user.get().getPassword())) {
             return new AuthError("Invalid username or password.");
         }
 
