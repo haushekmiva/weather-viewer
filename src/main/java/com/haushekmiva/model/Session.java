@@ -1,9 +1,9 @@
 package com.haushekmiva.model;
 
 
-import com.mysql.cj.protocol.ColumnDefinition;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,6 +18,7 @@ public class Session {
 
     @Id
     @Column(columnDefinition = "VARCHAR(36)")
+    @JdbcTypeCode(java.sql.Types.VARCHAR)
     @NonNull
     private UUID id;
 
@@ -26,7 +27,7 @@ public class Session {
     private LocalDateTime expiresAt;
 
     @NonNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User userId;
 
