@@ -31,7 +31,7 @@ public class SessionRepositoryImpl implements SessionRepository {
     @Override
     public void remove(UUID id) {
         sessionFactory.getCurrentSession()
-                .createQuery("DELETE FROM Session s WHERE s.id = :id", Session.class)
+                .createMutationQuery("DELETE FROM Session s WHERE s.id = :id")
                 .setParameter("id", id)
                 .executeUpdate();
     }
