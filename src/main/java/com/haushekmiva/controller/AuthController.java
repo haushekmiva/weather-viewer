@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 
 @Controller
@@ -88,6 +88,17 @@ public class AuthController {
             }
         }
 
+    }
+
+    // TODO: когда сделаю главную страницу оставить только POST и убрать GET
+    @RequestMapping(value = "/logout", method = {RequestMethod.GET, RequestMethod.POST})
+    public String logoutUser(@CookieValue(value = "session_id", required = false    ) UUID sessionId) {
+        if (sessionId == null) {
+            return "redirect:/";
+        }
+
+        authService.logoutUser(sessionId);
+        return "redirect:/";
     }
 
 }
