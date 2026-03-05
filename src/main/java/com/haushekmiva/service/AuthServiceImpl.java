@@ -19,9 +19,11 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthServiceImpl implements AuthService {
 
     public static final int DAYS_IN_WEEK = 7;
+    public static final int SECONDS_IN_WEEK = 60 * 60 * 24 * 7;
 
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
@@ -45,9 +47,10 @@ public class AuthServiceImpl implements AuthService {
         }
 
         UUID sessionId = UUID.randomUUID();
-        sessionRepository.create(new Session(sessionId, LocalDateTime.now().plusDays(DAYS_IN_WEEK), user));
+        LocalDateTime expiresAt = LocalDateTime.now().plusDays(DAYS_IN_WEEK);
+        sessionRepository.create(new Session(sessionId, expiresAt, user));
 
-        return new AuthSuccess(sessionId);
+        return new AuthSuccess(sessionId, SECONDS_IN_WEEK);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
         UUID sessionId = UUID.randomUUID();
         sessionRepository.create(new Session(sessionId, LocalDateTime.now().plusDays(DAYS_IN_WEEK), user.get()));
 
-        return new AuthSuccess(sessionId);
+        return new AuthSuccess(sessionId, SECONDS_IN_WEEK);
     }
 
     @Override
@@ -70,6 +73,7 @@ public class AuthServiceImpl implements AuthService {
         sessionRepository.remove(sessionId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<UserDto> getUserBySessionId(UUID sessionId) {
         Optional<Session> session = sessionRepository.getById(sessionId);
