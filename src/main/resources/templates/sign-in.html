@@ -26,15 +26,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" th:field="*{username}" required/>
-                    <span th:if="${#fields.hasErrors('username')}"
-                          th:errors="*{username}" class="invalid-feedback"></span>
+                    <input type="text" class="form-control" th:field="*{username}" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" required/>
+                    <div th:if="${#fields.hasErrors('username')}"
+                         th:errors="*{username}" class="invalid-feedback"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" th:field="*{password}" required/>
-                    <span th:if="${#fields.hasErrors('password')}"
-                          th:errors="*{password}" class="invalid-feedback"></span>
+                    <input type="password" class="form-control" th:field="*{password}" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" required/>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}"
+                         th:errors="*{password}" ></div>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign In</button>
