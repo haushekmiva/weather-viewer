@@ -14,9 +14,10 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
         basePackages = "com.haushekmiva",
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
-                classes = Controller.class
+                classes = {Controller.class, Configuration.class}
         ))
 @PropertySource("classpath:application.properties")
+@Import({DataBaseConfig.class})
 public class AppConfig {
 
     @Bean
