@@ -10,6 +10,7 @@ public final class CookieUtils {
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(maxAge);
         cookie.setPath(path);
+        cookie.setAttribute("SameSite", "Strict");
         cookie.setHttpOnly(true);
         return cookie;
     }
