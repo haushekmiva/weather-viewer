@@ -17,7 +17,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
                 classes = {Controller.class, Configuration.class}
         ))
 @PropertySource("classpath:application.properties")
-@Import({DataBaseConfig.class})
+@Import({DataBaseConfig.class, SchedulingConfig.class})
 public class AppConfig {
 
     @Bean
