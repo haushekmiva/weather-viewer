@@ -35,4 +35,13 @@ public class SessionRepositoryImpl implements SessionRepository {
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
+    @Override
+    public void removeExpiredSessions() {
+        sessionFactory.getCurrentSession()
+                .createMutationQuery("DELETE FROM Session S WHERE s.expiresAt < current_timestamp()")
+                .executeUpdate();
+    }
+
+
 }
