@@ -34,7 +34,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         UUID sessionId = UUID.fromString(sessionCookie.getValue());
 
-        if (authService.getUserBySessionId(sessionId).isEmpty()) {
+        if (authService.getUser(sessionId).isEmpty()) {
             return true;
         }
 

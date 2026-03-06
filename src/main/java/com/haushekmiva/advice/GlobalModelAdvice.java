@@ -21,7 +21,7 @@ public class GlobalModelAdvice {
             return null;
         }
 
-        return authService.getUserBySessionId(sessionId).orElse(null);
+        return authService.getUser(sessionId).orElse(null);
     }
 
 }
