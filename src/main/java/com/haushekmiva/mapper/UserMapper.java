@@ -1,8 +1,8 @@
 package com.haushekmiva.mapper;
 
+import com.haushekmiva.dto.UserDtoWithLocations;
 import com.haushekmiva.model.User;
 import com.haushekmiva.dto.UserDto;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
@@ -10,5 +10,6 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
 
     UserDto toDto(User user);
+    UserDtoWithLocations toDtoWithLocations(User user);
 
 }
