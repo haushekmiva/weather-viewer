@@ -27,9 +27,9 @@ public class User {
     @NonNull
     private String password;
 
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Location> locations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Session> sessions = new ArrayList<>();
 }

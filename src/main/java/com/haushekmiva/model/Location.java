@@ -31,7 +31,7 @@ public class Location {
 
     @NonNull
     @ManyToOne()
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user", nullable = false)
+    private User user;
 
 }

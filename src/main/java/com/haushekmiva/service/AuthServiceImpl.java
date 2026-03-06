@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
             Optional<Session> session = sessionRepository.getById(sessionId);
 
             if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-                    return Optional.of(userMapper.toDto(session.get().getUserId()));
+                    return Optional.of(userMapper.toDto(session.get().getUser()));
             }
 
             return Optional.empty();
@@ -91,7 +91,7 @@ public class AuthServiceImpl implements AuthService {
             Optional<Session> session = sessionRepository.getById(sessionId);
 
             if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-                return Optional.of(userMapper.toDtoWithLocations(session.get().getUserId()));
+                return Optional.of(userMapper.toDtoWithLocations(session.get().getUser()));
             }
 
             return Optional.empty();

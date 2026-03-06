@@ -28,7 +28,7 @@ public class Session {
 
     @NonNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    @JoinColumn(name = "user", nullable = false)
+    private User user;
 
 }
