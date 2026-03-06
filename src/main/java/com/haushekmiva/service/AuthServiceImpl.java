@@ -73,29 +73,35 @@ public class AuthServiceImpl implements AuthService {
         sessionRepository.remove(sessionId);
     }
 
-        @Transactional(readOnly = true)
-        @Override
-        public Optional<UserDto> getUser(UUID sessionId) {
-            Optional<Session> session = sessionRepository.getById(sessionId);
 
-            if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-                    return Optional.of(userMapper.toDto(session.get().getUser()));
-            }
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDto> getUser(UUID sessionId) {
+        Optional<Session> session = sessionRepository.getById(sessionId);
 
-            return Optional.empty();
+        if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
+            return Optional.of(userMapper.toDto(session.get().getUser()));
         }
 
-        @Transactional(readOnly = true)
-        @Override
-        public Optional<UserDtoWithLocations> getUserWithLocations(UUID sessionId) {
-            Optional<Session> session = sessionRepository.getById(sessionId);
+        return Optional.empty();
+    }
 
-            if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-                return Optional.of(userMapper.toDtoWithLocations(session.get().getUser()));
-            }
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDtoWithLocations> getUserWithLocations(UUID sessionId) {
+        Optional<Session> session = sessionRepository.getById(sessionId);
 
-            return Optional.empty();
+        if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
+            return Optional.of(userMapper.toDtoWithLocations(session.get().getUser()));
         }
+
+        return Optional.empty();
+    }
+
+    @Override
+    public void removeExpiredSessions() {
+        sessionRepository.removeExpiredSessions();
+    }
 
 
 }
