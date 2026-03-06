@@ -1,0 +1,1 @@
+CREATE INDEX idx_session_expires_at ON sessions(expires_at);
