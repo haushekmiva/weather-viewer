@@ -73,15 +73,29 @@ public class AuthServiceImpl implements AuthService {
         sessionRepository.remove(sessionId);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public Optional<UserDto> getUserBySessionId(UUID sessionId) {
-        Optional<Session> session = sessionRepository.getById(sessionId);
+        @Transactional(readOnly = true)
+        @Override
+        public Optional<UserDto> getUser(UUID sessionId) {
+            Optional<Session> session = sessionRepository.getById(sessionId);
 
-        if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-            return Optional.of(userMapper.toDto(session.get().getUserId()));
+            if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
+                    return Optional.of(userMapper.toDto(session.get().getUserId()));
+            }
+
+            return Optional.empty();
         }
 
-        return Optional.empty();
-    }
+        @Transactional(readOnly = true)
+        @Override
+        public Optional<UserDtoWithLocations> getUserWithLocations(UUID sessionId) {
+            Optional<Session> session = sessionRepository.getById(sessionId);
+
+            if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
+                return Optional.of(userMapper.toDtoWithLocations(session.get().getUserId()));
+            }
+
+            return Optional.empty();
+        }
+
+
 }
