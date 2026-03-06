@@ -2,6 +2,7 @@ package com.haushekmiva.interceptors;
 
 
 import com.haushekmiva.service.AuthService;
+import com.haushekmiva.utils.ValidUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         Cookie sessionCookie = WebUtils.getCookie(request, "session_id");
 
         if (sessionCookie == null) {
+            return true;
+        }
+
+
+        if (!ValidUtils.isUuidValid(sessionCookie.getValue())) {
             return true;
         }
 
