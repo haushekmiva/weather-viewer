@@ -4,6 +4,7 @@ import com.haushekmiva.model.User;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -15,6 +16,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private final SessionFactory sessionFactory;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void create(User user) {
             sessionFactory.getCurrentSession().persist(user);
