@@ -22,13 +22,10 @@ import java.util.UUID;
 @Transactional
 public class AuthServiceImpl implements AuthService {
 
-    public static final int DAYS_IN_WEEK = 7;
-    public static final int SECONDS_IN_WEEK = 60 * 60 * 24 * 7;
-
     private final UserRepository userRepository;
-    private final SessionRepository sessionRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final SessionService sessionService;
 
     @Override
     @Transactional
@@ -46,11 +43,9 @@ public class AuthServiceImpl implements AuthService {
             return new AuthError("User with login %s already exists.".formatted(userRegisterRequest.getUsername()));
         }
 
-        UUID sessionId = UUID.randomUUID();
-        LocalDateTime expiresAt = LocalDateTime.now().plusDays(DAYS_IN_WEEK);
-        sessionRepository.create(new Session(sessionId, expiresAt, user));
+        SessionDto session = sessionService.createSession(user);
 
-        return new AuthSuccess(sessionId, SECONDS_IN_WEEK);
+        return new AuthSuccess(session.sessionId(), session.maxAge());
     }
 
     @Override
@@ -62,45 +57,46 @@ public class AuthServiceImpl implements AuthService {
             return new AuthError("Invalid username or password.");
         }
 
-        UUID sessionId = UUID.randomUUID();
-        sessionRepository.create(new Session(sessionId, LocalDateTime.now().plusDays(DAYS_IN_WEEK), user.get()));
+        SessionDto session = sessionService.createSession(user.get());
 
-        return new AuthSuccess(sessionId, SECONDS_IN_WEEK);
+        return new AuthSuccess(session.sessionId(), session.maxAge());
     }
 
     @Override
     public void logoutUser(UUID sessionId) {
-        sessionRepository.remove(sessionId);
+        sessionService.removeSession(sessionId);
     }
 
 
     @Transactional(readOnly = true)
     @Override
     public Optional<UserDto> getUser(UUID sessionId) {
-        Optional<Session> session = sessionRepository.getById(sessionId);
+        Optional<User> user = sessionService.getUserBySessionId(sessionId);
 
-        if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-            return Optional.of(userMapper.toDto(session.get().getUser()));
+        if (user.isEmpty()) {
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.of(userMapper.toDto(user.get()));
+
     }
 
     @Transactional(readOnly = true)
     @Override
     public Optional<UserDtoWithLocations> getUserWithLocations(UUID sessionId) {
-        Optional<Session> session = sessionRepository.getById(sessionId);
+        Optional<User> user = sessionService.getUserBySessionId(sessionId);
 
-        if (session.isPresent() && session.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-            return Optional.of(userMapper.toDtoWithLocations(session.get().getUser()));
+        if (user.isEmpty()) {
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.of(userMapper.toDtoWithLocations(user.get()));
+
     }
 
     @Override
     public void removeExpiredSessions() {
-        sessionRepository.removeExpiredSessions();
+        sessionService.removeExpiredSessions();
     }
 
 
