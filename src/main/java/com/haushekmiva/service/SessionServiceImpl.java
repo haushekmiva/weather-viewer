@@ -5,6 +5,7 @@ import com.haushekmiva.model.Session;
 import com.haushekmiva.model.User;
 import com.haushekmiva.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +18,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SessionServiceImpl implements SessionService {
 
-
-    public static final int DAYS_IN_WEEK = 7;
-    public static final int SECONDS_IN_WEEK = 60 * 60 * 24 * 7;
+    @Value("${session.max_age_seconds}")
+    private int sessionMaxAge;
 
     private final SessionRepository sessionRepository;
 
     @Override
     public SessionDto createSession(User user) {
         UUID sessionId = UUID.randomUUID();
-        LocalDateTime expiresAt = LocalDateTime.now().plusDays(DAYS_IN_WEEK);
+        LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(sessionMaxAge);
         sessionRepository.create(new Session(sessionId, expiresAt, user));
-        return new SessionDto(sessionId, SECONDS_IN_WEEK);
+        return new SessionDto(sessionId, sessionMaxAge);
     }
 
     @Override
