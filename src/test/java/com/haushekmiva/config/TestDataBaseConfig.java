@@ -66,6 +66,7 @@ public class TestDataBaseConfig {
                 .dataSource(dataSource)
                 .locations("classpath:db/migration")
                 .baselineOnMigrate(true)
+                .cleanDisabled(false)
                 .load();
         flyway.clean();
         flyway.migrate();
