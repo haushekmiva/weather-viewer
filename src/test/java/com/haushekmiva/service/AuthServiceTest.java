@@ -23,6 +23,7 @@ import java.util.UUID;
 public class AuthServiceTest extends BaseIntegrationTest {
 
     private static final String TEST_PASSWORD = "test_password";
+    private static final String TEST_INVALID_PASSWORD = "test_invalid_password";
     private static final LocalDateTime OLD_DATE = LocalDateTime.of(1979, 1, 1, 1, 1);
 
     private final AuthService authService;
@@ -107,6 +108,18 @@ public class AuthServiceTest extends BaseIntegrationTest {
         assertThat(authResponse)
                 .withFailMessage("Sign-in should be success with valid data.")
                 .isInstanceOf(AuthSuccess.class);
+    }
+
+    @Test
+    public void loginUser_invalidData_authError() {
+        String test_username = getUniqueUsername();
+        authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
+
+        AuthResponse authResponse = authService.loginUser(new UserLoginRequest(test_username, TEST_INVALID_PASSWORD));
+
+        assertThat(authResponse)
+                .withFailMessage("Sign-in should be unsuccess with invalid data.")
+                .isInstanceOf(AuthError.class);
     }
 
     private String getUniqueUsername() {
