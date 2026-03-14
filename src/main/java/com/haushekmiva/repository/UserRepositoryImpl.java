@@ -19,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void create(User user) {
-            sessionFactory.getCurrentSession().persist(user);
+        sessionFactory.getCurrentSession().persist(user);
     }
 
     @Transactional(readOnly = true)
