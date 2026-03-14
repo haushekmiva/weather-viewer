@@ -1,6 +1,5 @@
 package com.haushekmiva.scheduler;
 
-import com.haushekmiva.service.AuthService;
 import com.haushekmiva.service.SessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

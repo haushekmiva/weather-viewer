@@ -2,9 +2,7 @@ package com.haushekmiva.service;
 
 import com.haushekmiva.dto.*;
 import com.haushekmiva.mapper.UserMapper;
-import com.haushekmiva.model.Session;
 import com.haushekmiva.model.User;
-import com.haushekmiva.repository.SessionRepository;
 import com.haushekmiva.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;

@@ -1,7 +1,7 @@
 package com.haushekmiva.mapper;
 
-import com.haushekmiva.model.Location;
 import com.haushekmiva.dto.LocationDto;
+import com.haushekmiva.model.Location;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 

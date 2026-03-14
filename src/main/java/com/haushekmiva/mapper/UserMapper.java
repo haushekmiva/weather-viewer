@@ -1,8 +1,8 @@
 package com.haushekmiva.mapper;
 
+import com.haushekmiva.dto.UserDto;
 import com.haushekmiva.dto.UserDtoWithLocations;
 import com.haushekmiva.model.User;
-import com.haushekmiva.dto.UserDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 

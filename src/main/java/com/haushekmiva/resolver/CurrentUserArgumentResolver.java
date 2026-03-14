@@ -7,7 +7,6 @@ import com.haushekmiva.service.AuthService;
 import com.haushekmiva.utils.ValidUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;

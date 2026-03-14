@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.springframework.test.context.TestConstructor.AutowireMode.ALL;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.context.TestConstructor.AutowireMode.ALL;
 
 @TestConstructor(autowireMode = ALL)
 @RequiredArgsConstructor
