@@ -14,6 +14,5 @@ import org.springframework.transaction.annotation.Transactional;
         TestDataBaseConfig.class  // вместо него
 })
 @ActiveProfiles("test")
-@Transactional
 public class BaseIntegrationTest {
 }
