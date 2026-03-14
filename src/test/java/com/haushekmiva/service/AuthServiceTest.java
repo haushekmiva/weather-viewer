@@ -7,7 +7,6 @@ import com.haushekmiva.model.User;
 import com.haushekmiva.repository.SessionRepository;
 import com.haushekmiva.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.TestConstructor;
 
@@ -23,7 +22,7 @@ import java.util.UUID;
 public class AuthServiceTest extends BaseIntegrationTest {
 
     private static final String TEST_PASSWORD = "test_password";
-    private static final String TEST_INVALID_PASSWORD = "test_invalid_password";
+    private static final String TEST_WRONG_PASSWORD = "test_invalid_password";
     private static final LocalDateTime OLD_DATE = LocalDateTime.of(1979, 1, 1, 1, 1);
 
     private final AuthService authService;
@@ -33,26 +32,26 @@ public class AuthServiceTest extends BaseIntegrationTest {
 
     @Test
     public void registerUser_correctInput_newUserCreated() {
-        String test_username = getUniqueUsername();
+        String testUsername = getUniqueUsername();
 
-        authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
-        Optional<User> user = userRepository.getByLogin(test_username);
+        authService.registerUser(new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD));
+        Optional<User> user = userRepository.getByLogin(testUsername);
 
         assertThat(user)
-                .withFailMessage("Entry with login %s was not created.", test_username)
+                .withFailMessage("Entry with login %s was not created.", testUsername)
                 .isPresent();
 
         assertThat(user.get().getLogin())
-                .withFailMessage("Entry should have username equal to %s", test_username)
-                .isEqualTo(test_username);
+                .withFailMessage("Entry should have username equal to %s", testUsername)
+                .isEqualTo(testUsername);
     }
 
     @Test
     public void registerUser_correctInput_newSessionCreated() {
-        String test_username = getUniqueUsername();
+        String testUsername = getUniqueUsername();
 
         AuthResponse authResponse = authService.registerUser(
-                new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD)
+                new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD)
         );
 
         assertThat(authResponse).isInstanceOf(AuthSuccess.class);
@@ -62,15 +61,15 @@ public class AuthServiceTest extends BaseIntegrationTest {
         Optional<Session> session = sessionRepository.getById(authSuccess.sessionId());
 
         assertThat(session)
-                .withFailMessage("Session for user with username %s no exists.", test_username)
+                .withFailMessage("Session for user with username %s no exists.", testUsername)
                 .isPresent();
     }
 
     @Test
     public void registerUser_nonUniqueLogin_authError() {
-        String test_username = getUniqueUsername();
-        authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
-        AuthResponse errorAuth = authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
+        String testUsername = getUniqueUsername();
+        authService.registerUser(new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD));
+        AuthResponse errorAuth = authService.registerUser(new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD));
 
         assertThat(errorAuth)
                 .withFailMessage("Create user with non-unique username should send error.")
@@ -80,10 +79,10 @@ public class AuthServiceTest extends BaseIntegrationTest {
 
     @Test
     public void getUserBySession_sessionExpired_emptyResponse() {
-        String test_username = getUniqueUsername();
+        String testUsername = getUniqueUsername();
 
-        userRepository.create(new User(test_username, TEST_PASSWORD));
-        User user = userRepository.getByLogin(test_username).get();
+        userRepository.create(new User(testUsername, TEST_PASSWORD));
+        User user = userRepository.getByLogin(testUsername).get();
 
         UUID sessionId = UUID.randomUUID();
         sessionRepository.create(new Session(
@@ -100,10 +99,10 @@ public class AuthServiceTest extends BaseIntegrationTest {
 
     @Test
     public void loginUser_validData_authSuccess() {
-        String test_username = getUniqueUsername();
-        authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
+        String testUsername = getUniqueUsername();
+        authService.registerUser(new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD));
 
-        AuthResponse authResponse = authService.loginUser(new UserLoginRequest(test_username, TEST_PASSWORD));
+        AuthResponse authResponse = authService.loginUser(new UserLoginRequest(testUsername, TEST_PASSWORD));
 
         assertThat(authResponse)
                 .withFailMessage("Sign-in should be success with valid data.")
@@ -112,14 +111,29 @@ public class AuthServiceTest extends BaseIntegrationTest {
 
     @Test
     public void loginUser_invalidData_authError() {
-        String test_username = getUniqueUsername();
-        authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
+        String testUsername = getUniqueUsername();
+        authService.registerUser(new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD));
 
-        AuthResponse authResponse = authService.loginUser(new UserLoginRequest(test_username, TEST_INVALID_PASSWORD));
+        AuthResponse authResponse = authService.loginUser(new UserLoginRequest(testUsername, TEST_WRONG_PASSWORD));
 
         assertThat(authResponse)
                 .withFailMessage("Sign-in should be unsuccess with invalid data.")
                 .isInstanceOf(AuthError.class);
+    }
+
+    @Test
+    public void logoutUser_validSession_sessionRemoved() {
+        String testUsername = getUniqueUsername();
+        AuthResponse authResponse = authService.registerUser(new UserRegisterRequest(testUsername, TEST_PASSWORD, TEST_PASSWORD));
+        AuthSuccess authSuccess = (AuthSuccess) authResponse;
+
+        authService.logoutUser(authSuccess.sessionId());
+
+        Optional<Session> session = sessionRepository.getById(authSuccess.sessionId());
+
+        assertThat(session)
+                .withFailMessage("User session should be removed after logout")
+                .isEmpty();
     }
 
     private String getUniqueUsername() {
