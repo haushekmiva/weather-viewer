@@ -93,11 +93,4 @@ public class AuthServiceImpl implements AuthService {
         return Optional.of(userMapper.toDtoWithLocations(user.get()));
 
     }
-
-    @Override
-    public void removeExpiredSessions() {
-        sessionService.removeExpiredSessions();
-    }
-
-
 }

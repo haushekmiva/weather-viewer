@@ -11,5 +11,4 @@ public interface AuthService {
     void logoutUser(UUID sessionId);
     Optional<UserDto> getUser(UUID sessionId);
     Optional<UserDtoWithLocations> getUserWithLocations(UUID sessionId);
-    void removeExpiredSessions();
 }
