@@ -97,6 +97,18 @@ public class AuthServiceTest extends BaseIntegrationTest {
                 .isEmpty();
     }
 
+    @Test
+    public void loginUser_validData_authSuccess() {
+        String test_username = getUniqueUsername();
+        authService.registerUser(new UserRegisterRequest(test_username, TEST_PASSWORD, TEST_PASSWORD));
+
+        AuthResponse authResponse = authService.loginUser(new UserLoginRequest(test_username, TEST_PASSWORD));
+
+        assertThat(authResponse)
+                .withFailMessage("Sign-in should be success with valid data.")
+                .isInstanceOf(AuthSuccess.class);
+    }
+
     private String getUniqueUsername() {
         return "test_" + UUID.randomUUID().toString().substring(0, 8);
     }
