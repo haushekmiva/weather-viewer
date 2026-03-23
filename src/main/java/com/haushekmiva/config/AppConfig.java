@@ -6,6 +6,7 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @ComponentScan(
@@ -32,6 +33,14 @@ public class AppConfig {
     @Bean
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder()
+                .baseUrl("https://api.openweathermap.org")
+                .defaultHeader("Accept", "application/json")
+                .build();
     }
 
 }
