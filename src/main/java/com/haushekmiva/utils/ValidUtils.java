@@ -16,4 +16,9 @@ public final class ValidUtils {
 
         return true;
     }
+
+    public static boolean isStringEmpty(String s) {
+        return s == null || s.isBlank();
+    }
+
 }
