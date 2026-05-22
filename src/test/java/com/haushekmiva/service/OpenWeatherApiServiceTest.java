@@ -2,6 +2,7 @@ package com.haushekmiva.service;
 
 import com.haushekmiva.BaseIntegrationTest;
 import com.haushekmiva.dto.LocationDto;
+import com.haushekmiva.dto.WeatherDto;
 import com.haushekmiva.mapper.WeatherMapper;
 import lombok.RequiredArgsConstructor;
 import okhttp3.mockwebserver.MockResponse;
@@ -59,13 +60,36 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
                 .isNotEmpty()
                 .hasSize(2);
 
-        assertThat(locations.get(0).name()).isEqualTo("Moscow");
-        assertThat(locations.get(0).lat()).isEqualByComparingTo(BigDecimal.valueOf(55.7504461));
-        assertThat(locations.get(0).lon()).isEqualByComparingTo(BigDecimal.valueOf(37.6174943));
+        assertThat(locations.get(0).name()).withFailMessage("City name should be Moscow.").isEqualTo("Moscow");
+        assertThat(locations.get(0).lat()).withFailMessage("Lat should be 55.7504461.").isEqualByComparingTo(BigDecimal.valueOf(55.7504461));
+        assertThat(locations.get(0).lon()).withFailMessage("Lon shoudl be 37.6174943.").isEqualByComparingTo(BigDecimal.valueOf(37.6174943));
 
-        assertThat(locations.get(1).name()).isEqualTo("MoscowTest");
-        assertThat(locations.get(1).lat()).isEqualByComparingTo(BigDecimal.valueOf(46.7323875));
-        assertThat(locations.get(1).lon()).isEqualByComparingTo(BigDecimal.valueOf(-117.0001651));
+        assertThat(locations.get(1).name()).withFailMessage("City name should be MoscowTest.").isEqualTo("MoscowTest");
+        assertThat(locations.get(1).lat()).withFailMessage("Lat should be 46.7323875.").isEqualByComparingTo(BigDecimal.valueOf(46.7323875));
+        assertThat(locations.get(1).lon()).withFailMessage("Lon shoudl be -117.0001651.").isEqualByComparingTo(BigDecimal.valueOf(-117.0001651));
+    }
+
+    @Test
+    void getWeatherByLocation_correctCoordinates_weather() {
+        String json = "{\"coord\":{\"lon\":-4.8956,\"lat\":13.303},"
+                + "\"main\":{\"temp\":41.5,\"feels_like\":39.84,\"humidity\":15},"
+                + "\"sys\":{\"country\":\"ML\"},"
+                + "\"name\":\"San\","
+                + "\"cod\":200}";
+        server.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setHeader("Content-Type", "application/json")
+                .setBody(json)
+        );
+
+        LocationDto location = new LocationDto("San", BigDecimal.valueOf(13.303), BigDecimal.valueOf(-4.8956));
+        WeatherDto weather = openWeatherApiService.getWeatherByLocation(location);
+
+        assertThat(weather.name()).withFailMessage("City name should be San.").isEqualTo("San");
+        assertThat(weather.temp()).withFailMessage("Temperature should be 41.5.").isEqualTo(41.5);
+        assertThat(weather.humidity()).withFailMessage("Humidity should be 15.").isEqualTo(15);
+        assertThat(weather.feelsLike()).withFailMessage("Feels like field should be 39.84.").isEqualTo(39.84);
+        assertThat(weather.country()).withFailMessage("Country should be ML.").isEqualTo("ML");
     }
 
 }
