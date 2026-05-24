@@ -3,6 +3,7 @@ package com.haushekmiva.service;
 import com.haushekmiva.BaseIntegrationTest;
 import com.haushekmiva.dto.LocationDto;
 import com.haushekmiva.dto.WeatherDto;
+import com.haushekmiva.exception.custom.ExternalApiException;
 import com.haushekmiva.mapper.WeatherMapper;
 import lombok.RequiredArgsConstructor;
 import okhttp3.mockwebserver.MockResponse;
@@ -18,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.context.TestConstructor.AutowireMode.ALL;
 
 @TestConstructor(autowireMode = ALL)
@@ -90,6 +92,28 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
         assertThat(weather.humidity()).withFailMessage("Humidity should be 15.").isEqualTo(15);
         assertThat(weather.feelsLike()).withFailMessage("Feels like field should be 39.84.").isEqualTo(39.84);
         assertThat(weather.country()).withFailMessage("Country should be ML.").isEqualTo("ML");
+    }
+
+    @Test
+    void getLocationByName_4xxError_throwException() {
+        server.enqueue(new MockResponse()
+                .setResponseCode(400)
+                .setHeader("Content-Type", "application/json")
+        );
+
+        assertThatThrownBy(() -> openWeatherApiService.getLocationByName("Moscow"))
+                .isInstanceOf(ExternalApiException.class);
+    }
+
+    @Test
+    void getLocationByName_5xxError_throwException() {
+        server.enqueue(new MockResponse()
+                .setResponseCode(500)
+                .setHeader("Content-Type", "application/json")
+        );
+
+        assertThatThrownBy(() -> openWeatherApiService.getLocationByName("Moscow"))
+                .isInstanceOf(ExternalApiException.class);
     }
 
 }
