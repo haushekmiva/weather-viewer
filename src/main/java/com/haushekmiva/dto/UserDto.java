@@ -1,5 +1,5 @@
 package com.haushekmiva.dto;
 
 
-public record UserDto(String login) {
+public record UserDto(String login, int id) {
 }
