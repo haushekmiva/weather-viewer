@@ -19,10 +19,11 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(int locationId, int userId) {
         sessionFactory.getCurrentSession()
-                .createMutationQuery("DELETE FROM Location l WHERE l.id = :id")
-                .setParameter("id", id)
+                .createMutationQuery("DELETE FROM Location l WHERE l.id = :locationId AND l.user.id = :userId")
+                .setParameter("locationId", locationId)
+                .setParameter("userId", userId)
                 .executeUpdate();
     }
 }
