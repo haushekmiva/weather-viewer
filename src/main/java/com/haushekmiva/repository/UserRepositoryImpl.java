@@ -30,4 +30,8 @@ public class UserRepositoryImpl implements UserRepository {
                 .setParameter("login", login)
                 .uniqueResultOptional();
     }
+
+    public User getReferenceById(int id) {
+            return sessionFactory.getCurrentSession().getReference(User.class, id);
+    }
 }
