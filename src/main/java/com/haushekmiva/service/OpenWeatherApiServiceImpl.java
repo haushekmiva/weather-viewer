@@ -1,6 +1,6 @@
 package com.haushekmiva.service;
 
-import com.haushekmiva.dto.LocationDto;
+import com.haushekmiva.dto.FoundLocationDto;
 import com.haushekmiva.dto.OpenWeatherDto;
 import com.haushekmiva.dto.WeatherDto;
 import com.haushekmiva.exception.custom.ExternalApiException;
@@ -30,17 +30,17 @@ public class OpenWeatherApiServiceImpl implements OpenWeatherApiService {
     private String apiKey;
 
     @Override
-    public List<LocationDto> getLocationByName(String name) {
+    public List<FoundLocationDto> getLocationByName(String name) {
         if (ValidUtils.isStringEmpty(name)) {
             throw new ValidationException("Name of the city should not be empty.");
         }
 
-        List<LocationDto> locations = client.get()
+        List<FoundLocationDto> locations = client.get()
                 .uri("/geo/1.0/direct?q={name}&limit={limit}&appid={key}", name, LIMIT_OF_CITIES, apiKey)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
                         this::handleErrorResponse)
-                .bodyToFlux(LocationDto.class)
+                .bodyToFlux(FoundLocationDto.class)
                 .collectList()
                 .block();
 
@@ -53,7 +53,7 @@ public class OpenWeatherApiServiceImpl implements OpenWeatherApiService {
     }
 
     @Override
-    public WeatherDto getWeatherByLocation(LocationDto location) {
+    public WeatherDto getWeatherByLocation(FoundLocationDto location) {
         OpenWeatherDto openWeatherDto = client.get()
                 .uri("/data/2.5/weather?lat={latitude}&lon={longitude}&units=metric&appid={key}", location.lat(), location.lon(), apiKey)
                 .retrieve()

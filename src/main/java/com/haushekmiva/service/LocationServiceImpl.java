@@ -1,6 +1,6 @@
 package com.haushekmiva.service;
 
-import com.haushekmiva.dto.LocationDto;
+import com.haushekmiva.dto.FoundLocationDto;
 import com.haushekmiva.dto.UserDto;
 import com.haushekmiva.dto.WeatherDto;
 import com.haushekmiva.model.Location;
@@ -24,7 +24,7 @@ public class LocationServiceImpl implements LocationService {
     private final OpenWeatherApiService openWeatherApiService;
 
     @Override
-    public List<LocationDto> searchLocations(String name) {
+    public List<FoundLocationDto> searchLocations(String name) {
         return openWeatherApiService.getLocationByName(name);
     }
 
@@ -40,6 +40,6 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public WeatherDto getLocationWeather(String name, BigDecimal lat, BigDecimal lon) {
-        return openWeatherApiService.getWeatherByLocation(new LocationDto(name, lat, lon));
+        return openWeatherApiService.getWeatherByLocation(new FoundLocationDto(name, lat, lon));
     }
 }

@@ -1,7 +1,7 @@
 package com.haushekmiva.service;
 
 import com.haushekmiva.BaseIntegrationTest;
-import com.haushekmiva.dto.LocationDto;
+import com.haushekmiva.dto.FoundLocationDto;
 import com.haushekmiva.dto.WeatherDto;
 import com.haushekmiva.exception.custom.ExternalApiException;
 import com.haushekmiva.mapper.WeatherMapper;
@@ -55,7 +55,7 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
                 .setBody(json));
-        List<LocationDto> locations = openWeatherApiService.getLocationByName("Moscow");
+        List<FoundLocationDto> locations = openWeatherApiService.getLocationByName("Moscow");
 
         assertThat(locations)
                 .withFailMessage("API response should not be empty and should contain 2 elements.")
@@ -84,7 +84,7 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
                 .setBody(json)
         );
 
-        LocationDto location = new LocationDto("San", BigDecimal.valueOf(13.303), BigDecimal.valueOf(-4.8956));
+        FoundLocationDto location = new FoundLocationDto("San", BigDecimal.valueOf(13.303), BigDecimal.valueOf(-4.8956));
         WeatherDto weather = openWeatherApiService.getWeatherByLocation(location);
 
         assertThat(weather.name()).withFailMessage("City name should be San.").isEqualTo("San");

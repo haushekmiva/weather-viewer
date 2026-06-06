@@ -5,6 +5,8 @@ public record WeatherDto(
         String country,
         double temp,
         double feelsLike,
-        int humidity
+        int humidity,
+        String description,
+        String icon
 ) {
 }
