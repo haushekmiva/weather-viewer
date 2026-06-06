@@ -25,6 +25,7 @@ public class OpenWeatherDto {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class WeatherElement {
         private String description;
+        private String icon;
     }
 
     @Data
