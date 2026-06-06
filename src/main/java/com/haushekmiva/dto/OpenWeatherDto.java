@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OpenWeatherDto {
@@ -15,6 +17,15 @@ public class OpenWeatherDto {
 
     @JsonProperty("sys")
     private SysData sysInfo;
+
+    @JsonProperty("weather")
+    private List<WeatherElement> weather;
+
+    @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class WeatherElement {
+        private String description;
+    }
 
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
