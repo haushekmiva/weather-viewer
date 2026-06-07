@@ -1,10 +1,13 @@
 package com.haushekmiva.repository;
 
+import com.haushekmiva.dto.FoundLocationDto;
 import com.haushekmiva.model.Location;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 @Transactional
@@ -18,6 +21,8 @@ public class LocationRepositoryImpl implements LocationRepository {
         sessionFactory.getCurrentSession().persist(location);
     }
 
+
+
     @Override
     public void remove(int locationId, int userId) {
         sessionFactory.getCurrentSession()
@@ -25,5 +30,13 @@ public class LocationRepositoryImpl implements LocationRepository {
                 .setParameter("locationId", locationId)
                 .setParameter("userId", userId)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<Location> getUserLocations(int userId) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("FROM Location l WHERE l.user.id = :userId", Location.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }
