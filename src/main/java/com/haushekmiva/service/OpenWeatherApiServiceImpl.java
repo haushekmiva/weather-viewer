@@ -2,6 +2,7 @@ package com.haushekmiva.service;
 
 import com.haushekmiva.dto.FoundLocationDto;
 import com.haushekmiva.dto.OpenWeatherDto;
+import com.haushekmiva.dto.SearchedLocationDto;
 import com.haushekmiva.dto.WeatherDto;
 import com.haushekmiva.exception.custom.ExternalApiException;
 import com.haushekmiva.exception.custom.ValidationException;
@@ -30,17 +31,17 @@ public class OpenWeatherApiServiceImpl implements OpenWeatherApiService {
     private String apiKey;
 
     @Override
-    public List<FoundLocationDto> getLocationByName(String name) {
+    public List<SearchedLocationDto> getLocationByName(String name) {
         if (ValidUtils.isStringEmpty(name)) {
             throw new ValidationException("Name of the city should not be empty.");
         }
 
-        List<FoundLocationDto> locations = client.get()
+        List<SearchedLocationDto> locations = client.get()
                 .uri("/geo/1.0/direct?q={name}&limit={limit}&appid={key}", name, LIMIT_OF_CITIES, apiKey)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
                         this::handleErrorResponse)
-                .bodyToFlux(FoundLocationDto.class)
+                .bodyToFlux(SearchedLocationDto.class)
                 .collectList()
                 .block();
 

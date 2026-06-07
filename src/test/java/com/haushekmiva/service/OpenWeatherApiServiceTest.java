@@ -2,6 +2,7 @@ package com.haushekmiva.service;
 
 import com.haushekmiva.BaseIntegrationTest;
 import com.haushekmiva.dto.FoundLocationDto;
+import com.haushekmiva.dto.SearchedLocationDto;
 import com.haushekmiva.dto.WeatherDto;
 import com.haushekmiva.exception.custom.ExternalApiException;
 import com.haushekmiva.mapper.WeatherMapper;
@@ -55,7 +56,7 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
                 .setBody(json));
-        List<FoundLocationDto> locations = openWeatherApiService.getLocationByName("Moscow");
+        List<SearchedLocationDto> locations = openWeatherApiService.getLocationByName("Moscow");
 
         assertThat(locations)
                 .withFailMessage("API response should not be empty and should contain 2 elements.")
