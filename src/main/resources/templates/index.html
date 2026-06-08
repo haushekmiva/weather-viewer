@@ -10,7 +10,7 @@
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" th:href="@{/}">
             <img alt="" class="d-inline-block align-text-top" height="24" src="images/weather-app.png" width="30">
             Weather Tracker
         </a>
@@ -24,14 +24,17 @@
 <section id="page-content">
     <div class="container mt-4">
         <div class="d-flex my-4">
-            <div class="input-group location-search-input-group me-3">
-                <input class="form-control" name="name" placeholder="Enter location" required type="text">
-                <button class="btn btn-outline-secondary btn-sm clear-input-button" onclick="this.previousElementSibling.value=''"
-                        type="button">
-                    &times;
-                </button>
-            </div>
-            <button class="btn btn-outline-success">Search</button>
+            <form method="get" action="/search" class="d-flex w-100">
+                <div class="input-group location-search-input-group me-3">
+                    <input class="form-control" name="name" placeholder="Enter location"
+                           required type="text" th:value="${param.name}">
+                    <button class="btn btn-outline-secondary btn-sm clear-input-button"
+                            type="button" onclick="this.previousElementSibling.value=''">
+                        &times;
+                    </button>
+                </div>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </div>
 
         <div>
