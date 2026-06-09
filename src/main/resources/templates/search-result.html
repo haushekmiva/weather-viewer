@@ -49,7 +49,13 @@
                             <p class="card-text mb-1" th:text="'Country: ' + ${location.country}"></p>
                             <p class="card-text mb-3" th:text="'State: ' + ${location.state}"></p>
                             <div class="mt-auto">
-                                <button class="btn btn-primary w-100">Add</button>
+                                <form method="post" th:action="@{/location}">
+                                    <input type="hidden" name="name" th:value="${location.name}">
+                                    <input type="hidden" name="lat"  th:value="${location.lat}">
+                                    <input type="hidden" name="lon"  th:value="${location.lon}">
+                                    <button class="btn btn-primary w-100">Add</button>
+                                </form>
+
                             </div>
                         </div>
                     </div>
