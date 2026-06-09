@@ -1,4 +1,4 @@
-package com.haushekmiva.interceptors;
+package com.haushekmiva.interceptor;
 
 
 import com.haushekmiva.service.AuthService;

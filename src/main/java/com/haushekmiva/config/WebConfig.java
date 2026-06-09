@@ -1,6 +1,6 @@
 package com.haushekmiva.config;
 
-import com.haushekmiva.interceptors.AuthenticationInterceptor;
+import com.haushekmiva.interceptor.AuthenticationInterceptor;
 import com.haushekmiva.resolver.CurrentUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
