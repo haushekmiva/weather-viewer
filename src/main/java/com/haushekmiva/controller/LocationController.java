@@ -8,8 +8,7 @@ import com.haushekmiva.utils.ValidUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class LocationController {
     }
 
     @GetMapping("/search")
-    public String showSearchResult(Model model, @RequestParam("name") String name, @CurrentUser UserDto user) {
+    public String showSearchResult(Model model, @RequestParam(defaultValue = "", value="name") String name, @CurrentUser UserDto user) {
 
         if (ValidUtils.isStringEmpty(name)) {
             return "redirect:/";
@@ -38,6 +37,24 @@ public class LocationController {
         model.addAttribute("user", user);
         model.addAttribute("searchResultDto", new SearchResultDto(searchedLocations));
         return "search-result";
+    }
+
+    @PostMapping("/locations")
+    public String addLocation(@ModelAttribute FoundLocationDto location, @CurrentUser UserDto user) {
+
+        if (!ValidUtils.isCoordinatesValid(location.lat(), location.lon())) {
+            return "redirect:/";
+        }
+
+        locationService.addLocation(location, user);
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/locations/{id}")
+    public String deleteLocation(@PathVariable(name = "id") int id, @CurrentUser UserDto user) {
+
+        locationService.removeLocation(id, user);
+        return "redirect:/";
     }
 
 }

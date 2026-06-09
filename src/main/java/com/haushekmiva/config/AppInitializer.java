@@ -1,6 +1,8 @@
 package com.haushekmiva.config;
 
+import jakarta.servlet.Filter;
 import org.springframework.lang.NonNull;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -19,5 +21,10 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    @Override
+    protected Filter[] getServletFilters() {
+        return new Filter[]{ new HiddenHttpMethodFilter() };
     }
 }
