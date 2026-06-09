@@ -1,6 +1,7 @@
 package com.haushekmiva.config;
 
 import com.haushekmiva.interceptor.AuthenticationInterceptor;
+import com.haushekmiva.interceptor.AuthorizationInterceptor;
 import com.haushekmiva.resolver.CurrentUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,7 @@ import java.util.List;
 )
 public class WebConfig implements WebMvcConfigurer {
 
+    private final AuthorizationInterceptor authorizationInterceptor;
     private final AuthenticationInterceptor authenticationInterceptor;
     private final CurrentUserArgumentResolver currentUserArgumentResolver;
 
@@ -71,6 +73,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor)
                 .addPathPatterns("/sign-in", "/sign-in/", "/sign-up", "/sign-up/");
+        registry.addInterceptor(authorizationInterceptor)
+                .addPathPatterns("/locations", "/locations/*", "/search", "/search/", "/", "");
     }
 
     @Override
