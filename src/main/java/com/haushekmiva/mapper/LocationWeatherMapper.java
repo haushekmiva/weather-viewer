@@ -8,6 +8,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring",  injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface LocationWeatherMapper {
 
-    LocationWeatherDto toDto(WeatherDto weatherDto, int id);
+    LocationWeatherDto toDto(String name, WeatherDto weatherDto, int id);
 
 }

@@ -88,7 +88,6 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
         FoundLocationDto location = new FoundLocationDto("San", BigDecimal.valueOf(13.303), BigDecimal.valueOf(-4.8956));
         WeatherDto weather = openWeatherApiService.getWeatherByLocation(location);
 
-        assertThat(weather.name()).withFailMessage("City name should be San.").isEqualTo("San");
         assertThat(weather.temp()).withFailMessage("Temperature should be 41.5.").isEqualTo(41.5);
         assertThat(weather.humidity()).withFailMessage("Humidity should be 15.").isEqualTo(15);
         assertThat(weather.feelsLike()).withFailMessage("Feels like field should be 39.84.").isEqualTo(39.84);

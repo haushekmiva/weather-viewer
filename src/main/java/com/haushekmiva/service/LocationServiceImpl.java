@@ -31,8 +31,8 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public void addLocation(String name, BigDecimal lat, BigDecimal lon, UserDto user) {
-        locationRepository.create(new Location(name, lat, lon, userRepository.getReferenceById(user.id())));
+    public void addLocation(FoundLocationDto location, UserDto user) {
+        locationRepository.create(new Location(location.name(), location.lat(), location.lon(), userRepository.getReferenceById(user.id())));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class LocationServiceImpl implements LocationService {
                     new FoundLocationDto(location.getName(), location.getLatitude(), location.getLongitude())
             );
 
-            locationWeathers.add(locationWeatherMapper.toDto(weather, location.getId()));
+            locationWeathers.add(locationWeatherMapper.toDto(location.getName(), weather, location.getId()));
         }
 
         return locationWeathers;
