@@ -29,12 +29,6 @@ public class AppConfig {
         return new BCryptPasswordEncoder(10);
     }
 
-
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
-
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
