@@ -16,7 +16,11 @@
         </a>
         <div class="d-flex align-items-center">
             <span class="navbar-text me-3" th:text="${user.login}"></span>
-            <button class="btn btn-outline-danger">Sign out</button>
+
+            <form method="post" th:action="@{/logout}" class="d-flex w-100">
+                <button class="btn btn-outline-danger" th:href="@{/logout}">Sign out</button>
+            </form>
+
         </div>
     </div>
 </nav>
@@ -24,7 +28,7 @@
 <section id="page-content">
     <div class="container mt-4">
         <div class="d-flex my-4">
-            <form method="get" action="/search" class="d-flex w-100">
+            <form method="get" th:action="@{/search}" class="d-flex w-100">
                 <div class="input-group location-search-input-group me-3">
                     <input class="form-control" name="name" placeholder="Enter location"
                            required type="text" th:value="${param.name}">

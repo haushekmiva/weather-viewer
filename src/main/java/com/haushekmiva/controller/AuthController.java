@@ -90,8 +90,7 @@ public class AuthController {
 
     }
 
-    // TODO: когда сделаю главную страницу оставить только POST и убрать GET
-    @RequestMapping(value = "/logout", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String logoutUser(@CookieValue(value = "session_id", required = false    ) UUID sessionId) {
         if (sessionId == null) {
             return "redirect:/";
