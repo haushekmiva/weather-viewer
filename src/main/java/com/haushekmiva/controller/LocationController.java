@@ -2,7 +2,6 @@ package com.haushekmiva.controller;
 
 import com.haushekmiva.annotation.CurrentUser;
 import com.haushekmiva.dto.*;
-import com.haushekmiva.exception.custom.ValidationException;
 import com.haushekmiva.service.LocationService;
 import com.haushekmiva.utils.ValidUtils;
 import lombok.RequiredArgsConstructor;

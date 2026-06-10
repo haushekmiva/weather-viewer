@@ -1,8 +1,10 @@
 package com.haushekmiva.service;
 
-import com.haushekmiva.dto.*;
+import com.haushekmiva.dto.FoundLocationDto;
+import com.haushekmiva.dto.LocationWeatherDto;
+import com.haushekmiva.dto.SearchedLocationDto;
+import com.haushekmiva.dto.UserDto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface LocationService {

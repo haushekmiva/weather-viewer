@@ -1,6 +1,5 @@
 package com.haushekmiva.repository;
 
-import com.haushekmiva.dto.FoundLocationDto;
 import com.haushekmiva.model.Location;
 
 import java.util.List;
