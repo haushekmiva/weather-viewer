@@ -31,6 +31,7 @@ public class LocationRepositoryImpl implements LocationRepository {
                 .executeUpdate();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Location> getUserLocations(int userId) {
         return sessionFactory.getCurrentSession()
