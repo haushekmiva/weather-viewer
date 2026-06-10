@@ -90,7 +90,7 @@ public class AuthController {
 
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @PostMapping(value = "/logout")
     public String logoutUser(@CookieValue(value = "session_id", required = false    ) UUID sessionId) {
         if (sessionId == null) {
             return "redirect:/";
