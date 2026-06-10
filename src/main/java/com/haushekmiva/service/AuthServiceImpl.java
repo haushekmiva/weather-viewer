@@ -25,7 +25,6 @@ public class AuthServiceImpl implements AuthService {
     private final SessionService sessionService;
 
     @Override
-    @Transactional
     public AuthResponse registerUser(UserRegisterRequest userRegisterRequest) {
         if (!Objects.equals(userRegisterRequest.getPassword(), userRegisterRequest.getRepeatPassword())) {
             return new AuthError("Passwords do not match.");
@@ -46,7 +45,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
     public AuthResponse loginUser(UserLoginRequest userLoginRequest) {
         Optional<User> user = userRepository.getByLogin(userLoginRequest.getUsername());
 
