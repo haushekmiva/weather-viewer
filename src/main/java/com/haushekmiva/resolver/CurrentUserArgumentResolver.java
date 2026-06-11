@@ -2,7 +2,6 @@ package com.haushekmiva.resolver;
 
 import com.haushekmiva.annotation.CurrentUser;
 import com.haushekmiva.dto.UserDto;
-import com.haushekmiva.dto.UserDtoWithLocations;
 import com.haushekmiva.service.AuthService;
 import com.haushekmiva.utils.ValidUtils;
 import jakarta.servlet.http.Cookie;
@@ -53,10 +52,6 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
         if (parameter.getParameterType().equals(UserDto.class)) {
             return authService.getUser(sessionId).orElse(null);
-        }
-
-        if (parameter.getParameterType().equals(UserDtoWithLocations.class)) {
-            return authService.getUserWithLocations(sessionId).orElse(null);
         }
 
         return null;
