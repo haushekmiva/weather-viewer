@@ -66,11 +66,14 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
         assertThat(locations.get(0).name()).withFailMessage("City name should be Moscow.").isEqualTo("Moscow");
         assertThat(locations.get(0).lat()).withFailMessage("Lat should be 55.7504461.").isEqualByComparingTo(BigDecimal.valueOf(55.7504461));
         assertThat(locations.get(0).lon()).withFailMessage("Lon shoudl be 37.6174943.").isEqualByComparingTo(BigDecimal.valueOf(37.6174943));
+        assertThat(locations.get(0).country()).withFailMessage("Country should be RU.").isEqualTo("RU");
+        assertThat(locations.get(0).state()).withFailMessage("State should be Moscow.").isEqualTo("Moscow");
 
         assertThat(locations.get(1).name()).withFailMessage("City name should be MoscowTest.").isEqualTo("MoscowTest");
         assertThat(locations.get(1).lat()).withFailMessage("Lat should be 46.7323875.").isEqualByComparingTo(BigDecimal.valueOf(46.7323875));
         assertThat(locations.get(1).lon()).withFailMessage("Lon shoudl be -117.0001651.").isEqualByComparingTo(BigDecimal.valueOf(-117.0001651));
-    }
+        assertThat(locations.get(1).country()).withFailMessage("Country should be US.").isEqualTo("US");
+        assertThat(locations.get(1).state()).withFailMessage("State should be Idaho.").isEqualTo("Idaho");    }
 
     @Test
     void getWeatherByLocation_correctCoordinates_weather() {
@@ -78,6 +81,9 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
                 + "\"main\":{\"temp\":41.5,\"feels_like\":39.84,\"humidity\":15},"
                 + "\"sys\":{\"country\":\"ML\"},"
                 + "\"name\":\"San\","
+                + "\"weather\" : [ {"
+                + "\"icon\":\"testIcon\","
+                + "\"description\":\"testDescription\" }],"
                 + "\"cod\":200}";
         server.enqueue(new MockResponse()
                 .setResponseCode(200)
@@ -92,6 +98,8 @@ public class OpenWeatherApiServiceTest extends BaseIntegrationTest {
         assertThat(weather.humidity()).withFailMessage("Humidity should be 15.").isEqualTo(15);
         assertThat(weather.feelsLike()).withFailMessage("Feels like field should be 39.84.").isEqualTo(39.84);
         assertThat(weather.country()).withFailMessage("Country should be ML.").isEqualTo("ML");
+        assertThat(weather.description()).withFailMessage("Description should be testDescription").isEqualTo("testDescription");
+        assertThat(weather.icon()).withFailMessage("Icon should be testIcon.").isEqualTo("testIcon");
     }
 
     @Test
