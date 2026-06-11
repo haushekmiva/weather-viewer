@@ -75,17 +75,4 @@ public class AuthServiceImpl implements AuthService {
         return Optional.of(userMapper.toDto(user.get()));
 
     }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Optional<UserDtoWithLocations> getUserWithLocations(UUID sessionId) {
-        Optional<User> user = sessionService.getUserBySessionId(sessionId);
-
-        if (user.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(userMapper.toDtoWithLocations(user.get()));
-
-    }
 }
