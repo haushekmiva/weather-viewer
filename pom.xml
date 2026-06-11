@@ -31,6 +31,7 @@
         <mockwebserver.version>4.12.0</mockwebserver.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <mysql-connector-j.version>8.3.0</mysql-connector-j.version>
+        <logback.version>1.5.6</logback.version>
     </properties>
 
     <dependencies>
@@ -172,6 +173,12 @@
             <artifactId>mockwebserver</artifactId>
             <version>${mockwebserver.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 
